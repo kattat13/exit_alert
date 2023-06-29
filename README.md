@@ -1,7 +1,11 @@
 # Exit Alert
 The repository contains a POC of an HR application used to predict if an employee is about to quit.
+
 Backend is written in Django, frontend is using HTML, CSS and JavaScript (template downloaded from [BBBootstrap](https://bbbootstrap.com/snippets/bootstrap-multi-step-survey-form-98749679), needed to be adjusted a bit).
-Application is deployed on AWS Elastic Beanstalk.
+
+Logo icon designed by Adrien Coquet.
+
+Application is deployed on AWS Elastic Beanstalk: [link](http://exit-alert.eu-central-1.elasticbeanstalk.com/)
 
 ## About
 - Prediction is done based on [IBM HR Analytics Employee Attrition & Performance](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset) dataset,
