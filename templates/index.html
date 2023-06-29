@@ -1,0 +1,536 @@
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="icon" type="image/png"  href="{% static 'fav.png' %}">
+    <title>ExitAlert - predict if your employee is about to quit</title>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <style>::-webkit-scrollbar {
+                                  width: 8px;
+                                }
+                                /* Track */
+                                ::-webkit-scrollbar-track {
+                                  background: #f1f1f1; 
+                                }
+                                 
+                                /* Handle */
+                                ::-webkit-scrollbar-thumb {
+                                  background: #888; 
+                                }
+                                
+                                /* Handle on hover */
+                                ::-webkit-scrollbar-thumb:hover {
+                                  background: #555; 
+                                } body {
+    background: #eee
+}
+
+#regForm {
+    background-color: #ffffff;
+    margin: 0px auto;
+    padding: 20px;
+    border-radius: 10px
+}
+
+#register {
+  color: #6A1B9A;
+}
+
+h1 {
+    text-align: center
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    border: 1px solid #aaaaaa;
+    border-radius: 10px;
+    -webkit-appearance: none;
+}
+
+.tab input:focus {
+  border:1px solid #6a1b9a !important;
+  outline: none;
+}
+
+input.invalid {
+    border:1px solid #e03a0666;
+}
+
+.tab {
+    display: none; margin-top: 30px;
+}
+
+button {
+    background-color: #6A1B9A;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 20px;
+    font-size: 17px;
+    cursor: pointer
+}
+
+button:hover {
+    opacity: 0.8
+}
+
+button:focus {
+  outline: none !important;
+}
+
+#prevBtn {
+    background-color: #bbbbbb
+}
+
+.all-steps{
+      text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.step {
+       height: 40px;
+    width: 40px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    color: #6a1b9a;
+    opacity: 0.5;
+}
+
+.step.active {
+    opacity: 1
+}
+
+
+.step.finish {
+   color: #fff;
+   background: #6a1b9a;
+   opacity: 1;
+}
+
+.all-steps {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+
+.thanks-message {
+    display: none
+}
+
+.container {font-family: Segoe UI, Tahoma;}
+
+    </style>
+</head>
+<body className='snippet-body'>
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <form id="regForm">
+                {% csrf_token %}<div class="text-center">
+                <img src="{% static 'logo.png' %}" width="300" class="mb-4"></div>
+                <div class="all-steps" id="all-steps">
+                    <span class="step"><i class="fa fa-calendar"></i></span>
+                    <span class="step"><i class="fa fa-plane"></i></span>
+                    <span class="step"><i class="fa fa-money"></i></span>
+                    <span class="step"><i class="fa fa-user"></i></span>
+                    <span class="step"><i class="fa fa-home"></i></span>
+                    <span class="step"><i class="fa fa-book"></i></span>
+                    <span class="step"><i class="fa fa-graduation-cap"></i></span>
+                    <span class="step"><i class="fa fa-leaf"></i></span>
+                    <span class="step"><i class="fa fa-transgender"></i></span>
+                    <span class="step"><i class="fa fa-briefcase"></i></span>
+                    <span class="step"><i class="fa fa-briefcase"></i></span>
+                    <span class="step"><i class="fa fa-briefcase"></i></span>
+                    <span class="step"><i class="fa fa-smile-o"></i></span></div>
+                <div class="all-steps" id="all-steps2">
+                    <span class="step"><i class="fa fa-heart-o"></i></span>
+                    <span class="step"><i class="fa fa-money"></i></span>
+                    <span class="step"><i class="fa fa-briefcase"></i></span>
+                    <span class="step"><i class="fa fa-briefcase"></i></span>
+                    <span class="step"><i class="fa fa-smile-o"></i></span>
+                    <span class="step"><i class="fa fa-money"></i></span>
+                    <span class="step"><i class="fa fa-clock-o"></i></span>
+                    <span class="step"><i class="fa fa-clock-o"></i></span>
+                    <span class="step"><i class="fa fa-clock-o"></i></span>
+                    <span class="step"><i class="fa fa-clock-o"></i></span>
+                    <span class="step"><i class="fa fa-clock-o"></i></span>
+                    <span class="step"><i class="fa fa-clock-o"></i></span>
+                    <span class="step"><i class="fa fa-user"></i></span>
+                </div>
+
+                {% if result %}
+                <div class="thanks-message text-center" id="text-message">
+                <h2>{{ result }}!</h2>
+
+                    <img src="https://i.imgur.com/O18mJ1K.png" width="100" class="mb-4">
+                    <h3>Thank you for your feedback!</h3>
+                    <span>Thanks for your valuable information. It helps us to improve our services!</span>
+                </div>
+                {% endif %}
+
+                <div class="tab">
+                    <h5>Age</h5>
+                    <p><input placeholder="Employee's age" type="number" oninput="this.className = ''" name="age"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>How often did the employee travelled for business?</h5>
+                    <p>
+                        <select name="business_travel" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="2">Frequently</option>
+                            <option value="1">Rarely</option>
+                            <option value="0">Never</option>
+                        </select>
+                    </p>
+
+                </div>
+                <div class="tab">
+                    <h5>Daily Rate</h5>
+                    <p><input placeholder="Employee's daily rate" type="number" oninput="this.className = ''" name="daily_rate"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Department</h5>
+                    <p><select name="department" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Research & Development">Research & Development</option>
+                            <option value="Sales">Sales</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Distance from work to home</h5>
+                    <p><input placeholder="Employee's distance from work to home" type="number" oninput="this.className = ''" name="distance_from_home"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Education Level</h5>
+                    <p><select name="education" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="5">Doctor</option>
+                            <option value="4">Master</option>
+                            <option value="3">Bachelor</option>
+                            <option value="2">College</option>
+                            <option value="1">Below College</option>
+                        </select></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Education Field</h5>
+                    <p>
+                        <select name="education_field" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Life Sciences">Life Sciences</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Technical Degree">Technical Degree</option>
+                            <option value="Other">Other</option>
+                        </select></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Environment Satisfaction</h5>
+                    <p><select name="env_satisfaction" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="4">Very High</option>
+                            <option value="3">High</option>
+                            <option value="2">Medium</option>
+                            <option value="1">Low</option>
+                        </select></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Gender</h5>
+                    <p>
+                        <select name="gender" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Job Involvement</h5>
+                    <p><select name="job_involvement" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="4">Very High</option>
+                            <option value="3">High</option>
+                            <option value="2">Medium</option>
+                            <option value="1">Low</option>
+                        </select></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Job Level</h5>
+                    <p>
+                        <select name="job_level" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="5">Pro or Executive or senior management</option>
+                            <option value="4">Senior or Middle management</option>
+                            <option value="3">Mid or First-level management</option>
+                            <option value="2">Junior</option>
+                            <option value="1">Entry-level</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Job Role</h5>
+                    <p>
+                        <select name="job_role" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="Sales Executive">Sales Executive</option>
+                            <option value="Research Scientist">Research Scientist</option>
+                            <option value="Laboratory Technician">Laboratory Technician</option>
+                            <option value="Manufacturing Director">Manufacturing Director</option>
+                            <option value="Healthcare Representative">Healthcare Representative</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Sales Representative">Sales Representative</option>
+                            <option value="Research Director">Research Director</option>
+                            <option value="Human Resources">Human Resources</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Job Satisfaction</h5>
+                    <p>
+                        <select name="job_satisfaction" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="4">Very High</option>
+                            <option value="3">High</option>
+                            <option value="2">Medium</option>
+                            <option value="1">Low</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Marital Status</h5>
+                    <p>
+                        <select name="marital_status" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Monthly Income</h5>
+                    <p><input placeholder="Monthly Income" type="number" oninput="this.className = ''" name="monthly_income"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Number of companies the employee worked in previously</h5>
+                    <p><input placeholder="Type a number" type="number" oninput="this.className = ''" name="num_companies_worked"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Has the employee worked overtime?</h5>
+                    <p>
+                        <select name="overtime" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Relationship Satisfaction</h5>
+                    <p>
+                        <select name="relationship_satisfaction" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="4">Very High</option>
+                            <option value="3">High</option>
+                            <option value="2">Medium</option>
+                            <option value="1">Low</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Stock Level Option</h5>
+                    <p>
+                        <select name="stock_level" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                            <option value="0">0 - employee has no stocks</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Total working years</h5>
+                    <p><input placeholder="Type a number" type="number" oninput="this.className = ''" name="total_working_years"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Training times from last year</h5>
+                    <p><input placeholder="Type a number" type="number" oninput="this.className = ''" name="training"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Work Life Balance</h5>
+                    <p>
+                        <select name="worklife_bal" oninput="this.className = ''" class="form-select form-select-lg mb-3"
+                                aria-label=".form-select-lg example">
+                            <option disabled selected value="">Select from menu</option>
+                            <option value="4">Best</option>
+                            <option value="3">Better</option>
+                            <option value="2">Good</option>
+                            <option value="1">Bad</option>
+                        </select>
+                    </p>
+                </div>
+
+                <div class="tab">
+                    <h5>Years at this company</h5>
+                    <p><input placeholder="Type a number" type="number" oninput="this.className = ''" name="years_at_company"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Years in current role</h5>
+                    <p><input placeholder="Type a number" type="number" oninput="this.className = ''" name="years_in_current"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Years since last promotion</h5>
+                    <p><input placeholder="Type a number" type="number" oninput="this.className = ''" name="years_since_last_promo"></p>
+                </div>
+
+                <div class="tab">
+                    <h5>Years with current manager</h5>
+                    <p><input placeholder="Type a number" type="number" oninput="this.className = ''" name="years_with_manager"></p>
+                </div>
+
+
+
+                <div style="overflow:auto;" id="nextprevious">
+                    <div style="float:right;">
+                        <button type="button" id="prevBtn" onclick="nextPrev(-1)"><i
+                                class="fa fa-angle-double-left"></i></button>
+                        <button type="button" id="nextBtn" onclick="nextPrev(1)"><i
+                                class="fa fa-angle-double-right"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type='text/javascript'
+        src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js'></script>
+<script type='text/javascript' src='#'></script>
+<script type='text/javascript' src='#'></script>
+<script type='text/javascript' src='#'></script>
+<script type='text/javascript'>var currentTab = 0;
+              document.addEventListener("DOMContentLoaded", function(event) {
+
+
+              showTab(currentTab);
+
+              });
+
+              function showTab(n) {
+              var x = document.getElementsByClassName("tab");
+              x[n].style.display = "block";
+              if (n == 0) {
+              document.getElementById("prevBtn").style.display = "none";
+              } else {
+              document.getElementById("prevBtn").style.display = "inline";
+              }
+              if (n == (x.length - 1)) {
+              document.getElementById("nextBtn").innerHTML = '<i class="fa fa-arrow-circle-o-right" type="submit" name="attrition_button" ></i>';
+              } else {
+              document.getElementById("nextBtn").innerHTML = '<i class="fa fa-angle-double-right"></i>';
+              }
+              fixStepIndicator(n)
+              }
+
+              function nextPrev(n) {
+              var x = document.getElementsByClassName("tab");
+              if (n == 1 && !validateForm()) return false;
+              x[currentTab].style.display = "none";
+              currentTab = currentTab + n;
+              if (currentTab >= x.length) {
+              document.getElementById("regForm").submit();
+              return false;
+
+
+              }
+              showTab(currentTab);
+              }
+
+              function validateForm() {
+                   var x, y, i, valid = true;
+                   x = document.getElementsByClassName("tab");
+                   y = x[currentTab].getElementsByTagName("input");
+                   for (i = 0; i < y.length; i++) {
+                       if (y[i].value == "") {
+                           y[i].className += " invalid";
+                           valid = false;
+                       }
+
+
+                   }
+                   if (valid) {
+                       document.getElementsByClassName("step")[currentTab].className += " finish";
+                   }
+                   return valid;
+               }
+
+               function fixStepIndicator(n) {
+                   var i, x = document.getElementsByClassName("step");
+                   for (i = 0; i < x.length; i++) {
+                       x[i].className = x[i].className.replace(" active", "");
+                   }
+                   x[n].className += " active";
+               }
+</script>
+<script type='text/javascript'>var myLink = document.querySelector('a[href="#"]');
+                                myLink.addEventListener('click', function(e) {
+                                  e.preventDefault();
+                                });
+</script>
+
+</body>
+</html>
