@@ -5,7 +5,7 @@ Backend is written in Django, frontend is using HTML, CSS and JavaScript (templa
 
 Logo icon designed by Adrien Coquet.
 
-Application is deployed on AWS Elastic Beanstalk: [link](http://exit-alert.eu-central-1.elasticbeanstalk.com/)
+Application is deployed on AWS Elastic Beanstalk: [link](http://hr-alert.eu-north-1.elasticbeanstalk.com/)
 
 ## About
 - Prediction is done based on [IBM HR Analytics Employee Attrition & Performance](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset) dataset,
