@@ -1,3 +1,6 @@
+![](exit-alert-demo.gif)
+
+
 # Exit Alert
 The repository contains a POC of an HR application used to predict if an employee is about to quit.
 
